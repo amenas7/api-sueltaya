@@ -13,7 +13,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-let PORT = 5000; // 80 - 655NN
+let PORT = 4001; // 80 - 655NN
 const url: string = `http://localhost:${PORT}`;
 
 app.get('/', (request, response) => {
