@@ -4,7 +4,7 @@
   "description": "Clase 3 del diplomado",
   "main": "src/index.ts",
   "scripts": {
-    "build": "ts-node ./src/index.ts",
+    "build" : "tsc --build tsconfig.json",
     "start": "export NODE_ENV=prod && node build/src/index.js",
     "start:dev": "export NODE_ENV=dev && nodemon src/index.ts",
     "start:qa": "export NODE_ENV=qa && nodemon src/index.ts",
