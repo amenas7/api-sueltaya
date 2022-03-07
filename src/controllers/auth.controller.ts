@@ -158,10 +158,10 @@ class AuthController {
 				message: "Correo enviado"
 			})
 
-		} catch (error: any) {
+		} catch (error) {
 			res.send({
 				message: 'Ha ocurrido un error en el servidor', 
-				error: error.message }).status(500);
+				error: (error as Error).message }).status(500);
 		}
 	}
 
@@ -188,7 +188,7 @@ class AuthController {
 		} catch (error) {
 			res.send({
 				message: 'Ha ocurrido un error en el servidor', 
-				error: error.message }).status(500);
+				error: (error as Error).message }).status(500);
 		}
 	}
 

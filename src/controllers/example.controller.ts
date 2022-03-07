@@ -96,14 +96,15 @@ const loginPost = (request: Request, response: Response) => {
 			message: 'Usuario logeado correctamente'
 		})
 
-	} catch (err: any) {
+	} catch (err) {
 		console.error(err);
 		return response.send({
 			success: false,
-			error: {
-				code: '01',
-				message: 'Ha ocurrido un error al logearse'
-			}
+			error : (err as Error).message
+			// error: {
+			// 	code: '01',
+			// 	message: 'Ha ocurrido un error al logearse'
+			// }
 		})
 	}
 }
