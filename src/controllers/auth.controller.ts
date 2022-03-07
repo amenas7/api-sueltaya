@@ -185,7 +185,7 @@ class AuthController {
 				message: "Contraseña actualizada"
 			})
 
-		} catch (error: any) {
+		} catch (error) {
 			res.send({
 				message: 'Ha ocurrido un error en el servidor', 
 				error: error.message }).status(500);
