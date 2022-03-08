@@ -56,7 +56,7 @@ class UserController implements CrudRepository {
 			//const token = getToken();
 			const token = jwt.sign({
 				email: tmp_email 
-			}, 'SECRET', { expiresIn: '1h' })
+			}, 'SECRET', { expiresIn: '5d' })
 
 			//return console.log(token);
 
