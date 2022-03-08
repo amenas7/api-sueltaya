@@ -5,8 +5,9 @@ import UserModel from "../models/User.model";
 import CrudRepository from "../shared/repository/CrudRepository";
 import UserRepository from "../shared/repository/UserRepository";
 import { encrypt } from "../shared/utils/crypt";
-import jwt from 'jsonwebtoken';
+//import jwt from 'jsonwebtoken';
 import getTokenData from "./../shared/utils/config";
+import bcrypt from 'bcrypt';
 
 class UserController implements CrudRepository {
 	constructor(){}
@@ -54,9 +55,14 @@ class UserController implements CrudRepository {
 
 			//
 			//const token = getToken();
-			const token = jwt.sign({
-				email: tmp_email 
-			}, 'SECRET', { expiresIn: '5d' })
+			const salt = bcrypt.genSaltSync();
+    		const token = bcrypt.hashSync( tmp_email, salt );
+
+			//return console.log(token);
+
+			// const token = jwt.sign({
+			// 	email: tmp_email 
+			// }, 'SECRET', { expiresIn: '5d' })
 
 			//return console.log(token);
 
