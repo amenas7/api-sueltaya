@@ -7,6 +7,7 @@ const authController = new AuthController();
 // api/auth/
 route.post('/',  authController.login);
 route.post('/email',  authController.email_recovery);
+route.put('/code',  authController.verificar_code);
 route.put('/changepass', authController.cambiar_password);
 
 export default route;

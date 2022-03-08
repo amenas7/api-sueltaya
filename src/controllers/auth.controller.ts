@@ -192,6 +192,28 @@ class AuthController {
 		}
 	}
 
+	public async verificar_code(req: Request, res: Response){
+		try {
+			const { code, email } = req.body;
+			const user = await UserModel.findOne( {email, code_verification: code} );
+			
+			if(!user){
+				res.status(404).send({ok: false, message: 'Los datos ingresados no son correctos'});
+				return;
+			}
+
+			res.status(200).json({
+				ok: true,
+				message: "Codigo de verificación correcto"
+			})
+
+		} catch (error) {
+			res.send({
+				message: 'Ha ocurrido un error en el servidor', 
+				error: (error as Error).message }).status(500);
+		}
+	}
+
 }
 
 export default AuthController;
