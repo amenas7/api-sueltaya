@@ -116,7 +116,7 @@ class UserController implements CrudRepository {
 					<p style="font-family: 'Ubuntu', sans-serif; font-size: 16px; padding-left: 20px; padding-right: 20px; text-align: center;"> Te damos la bienvenida a la familia de SueltaYa!, recuerda que para poder usar nuestra plataforma es necesario confirmar tu correo electrónico a través del siguiente enlace: </p>
 
 					<div style="margin-left: auto; margin-right: auto; display: block; font-size: 25px; text-align: center;">
-					<a href="http://localhost:4200/api/user/confirm/${token}" style="font-family: 'Ubuntu', sans-serif; padding: 12px; color: white; background-color: #00A9E3; border-radius: 5px; text-decoration: none"> Activar mi cuenta</a> 
+					<a href="https://appsueltaya.web.app/verify-account/${token}" style="font-family: 'Ubuntu', sans-serif; padding: 12px; color: white; background-color: #00A9E3; border-radius: 5px; text-decoration: none"> Activar mi cuenta</a> 
 					</div>	
 					
 					<br>
