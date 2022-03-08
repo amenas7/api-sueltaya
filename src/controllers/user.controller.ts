@@ -6,8 +6,10 @@ import CrudRepository from "../shared/repository/CrudRepository";
 import UserRepository from "../shared/repository/UserRepository";
 import { encrypt } from "../shared/utils/crypt";
 //import jwt from 'jsonwebtoken';
-import getTokenData from "./../shared/utils/config";
-import bcrypt from 'bcrypt';
+//import getTokenData from "./../shared/utils/config";
+//import bcrypt from 'bcrypt';
+import Cryptr from 'cryptr';
+const cryptr = new Cryptr('myTotalySecretKey');
 
 class UserController implements CrudRepository {
 	constructor(){}
@@ -55,8 +57,9 @@ class UserController implements CrudRepository {
 
 			//
 			//const token = getToken();
-			const salt = bcrypt.genSaltSync();
-    		const token = bcrypt.hashSync( tmp_email, salt );
+			//const salt = bcrypt.genSaltSync();
+    		//const token = bcrypt.hashSync( tmp_email, salt );
+			const token = cryptr.encrypt(tmp_email);
 
 			//return console.log(token);
 
@@ -155,18 +158,20 @@ class UserController implements CrudRepository {
 			const { token } = req.params;
        
 			// Verificar la data
-			const data = await getTokenData(token);
+			//const data = await getTokenData(token);
+			const email_verificado = cryptr.decrypt(token);
 
-			if(!data) {
+
+			if(!email_verificado) {
 				res.json({
 					success: false,
 					msg: 'Error al obtener data'
 				});
 		   }
 
-		   const email = data!['email'];
+		   //const email = data!['email'];
 
-		   const Buscaruser = await UserModel.findOne( {email: email} );
+		   const Buscaruser = await UserModel.findOne( {email: email_verificado} );
 			
 			if(!Buscaruser){
 				res.status(404).send({ok: false, message: 'El usuario no existe'});
@@ -174,7 +179,7 @@ class UserController implements CrudRepository {
 			}
 
 			// Actualizar usuario
-			await UserModel.updateOne( { email : email }, {$set: { state: "true", verify: "true" } }, {
+			await UserModel.updateOne( { email : email_verificado }, {$set: { state: "true", verify: "true" } }, {
 				returnDocument: 'after'
 			})
 
