@@ -11,7 +11,8 @@ DB_CONNECTION();
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+//app.use(cors());
+app.use( cors({ origin: true, credentials: true }) );
 
 let PORT = 4001; // 80 - 655NN
 const url: string = `http://localhost:${PORT}`;
