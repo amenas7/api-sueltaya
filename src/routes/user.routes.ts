@@ -10,5 +10,6 @@ router.get('/:_id', userController.getById);
 router.post('/', userController.create);
 router.post('/regsocial', userController.createSocial);
 router.patch('/', userController.update);
+router.get('/confirm/:token', userController.confirmAccount);
 router.delete('/:_id', userController.delete);
 export default router;

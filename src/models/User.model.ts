@@ -42,6 +42,10 @@ const UserSchema = new Schema({
 		min: 18,
 		max: 128
 	},
+	provider: {
+		type: String,
+		required: false
+	},
 	create_at: {
 		type: SchemaTypes.Date,
 		default: Date.now()

@@ -9,5 +9,6 @@ export default interface UserRepository {
 	state?: boolean;
 	verify?: boolean;
 	age?: number;
+	provider?: string;
 	create_at: Date
 }

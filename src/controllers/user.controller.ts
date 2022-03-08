@@ -6,6 +6,7 @@ import CrudRepository from "../shared/repository/CrudRepository";
 import UserRepository from "../shared/repository/UserRepository";
 import { encrypt } from "../shared/utils/crypt";
 import jwt from 'jsonwebtoken';
+import getTokenData from "./../shared/utils/config";
 
 class UserController implements CrudRepository {
 	constructor(){}
@@ -138,6 +139,47 @@ class UserController implements CrudRepository {
 		} catch (error) {
 			console.log(error);
 			res.send({error, message: 'Problemas al crear el usuario'})
+		}
+	}
+
+	public async confirmAccount(req: Request, res: Response): Promise<void> {
+		try {
+			//const user = req.body as UserRepository;
+			// Obtener el token
+			const { token } = req.params;
+       
+			// Verificar la data
+			const data = await getTokenData(token);
+
+			if(!data) {
+				res.json({
+					success: false,
+					msg: 'Error al obtener data'
+				});
+		   }
+
+		   const email = data!['email'];
+
+		   const Buscaruser = await UserModel.findOne( {email: email} );
+			
+			if(!Buscaruser){
+				res.status(404).send({ok: false, message: 'El usuario no existe'});
+				return;
+			}
+
+			// Actualizar usuario
+			await UserModel.updateOne( { email : email }, {$set: { state: "true", verify: "true" } }, {
+				returnDocument: 'after'
+			})
+
+			res.status(200).json({
+				ok: true,
+				message: "Usuario confirmado correctamente"
+			})
+
+		} catch (error) {
+			console.log(error);
+			res.send({error, message: 'Problemas al confirmar el usuario'})
 		}
 	}
 
