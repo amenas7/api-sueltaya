@@ -51,6 +51,7 @@ class UserController implements CrudRepository {
 				return;
 			}
 
+			//guardar en bd
 			user.password = encrypt(user.password!);
 			const userDb = new UserModel(user);
 			await userDb.save();
@@ -206,6 +207,81 @@ class UserController implements CrudRepository {
 			// 	res.status(404).send({ok: false, message: 'Ya existe una cuenta registrada con este correo'});
 			// 	return;
 			// }
+
+			const token = cryptr.encrypt(user.email);
+			async function main() {
+				let transporter = nodemailer.createTransport({
+				host: "email-smtp.us-east-1.amazonaws.com",
+				port: 587,
+				secure: false, // true for 465, false for other ports
+				auth: {
+					user: 'AKIAUKBIQ63CIWYCN36V', // generated ethereal user
+					pass: 'BLIaMiuzRhig3PChcz5D/QNVFobwNbBCQkCjDceIrIcY', // generated ethereal password
+				},
+				});
+			
+				// send mail with defined transport object
+				let info = await transporter.sendMail({
+				from: 'amenas94@gmail.com', // sender address
+				to: `${user.email}`, // list of receivers
+				subject: "✔ Activa tu cuenta de SueltaYa! ", // Subject line
+				//text: "Funcionamiento correcto", // plain text body
+				html: `<!DOCTYPE html>
+				<html lang="en">
+				<head>
+				<meta charset="UTF-8">
+				<meta name="viewport" content="width=device-width, initial-scale=1.0">
+				<meta http-equiv="X-UA-Compatible" content="ie=edge">
+				<link rel="preconnect" href="https://fonts.googleapis.com">
+				<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+				<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
+				<title>Document</title>
+				<style>
+					.card {
+					border-width: 1px;
+					border-style: solid;
+					border-color: #E0E0E0;
+					border-radius: 8px;
+					padding: 16px;
+					max-width: 512px;
+					margin-left: auto;
+					margin-right: auto;
+					}
+					.title {
+					color: #202124;
+					width: 100%;
+					}
+					ul {
+					color: #202124;
+					}
+				</style>
+				</head>
+				<body>
+				<div class="card">
+					<div class="title">
+					<img style="margin-left: auto; margin-right: auto; display: block;width: 20%" src="https://i.postimg.cc/LXrK9R2V/logo-email-sueltaya.png">
+					</div>
+					<p style="font-family: 'Ubuntu', sans-serif; font-size: 16px; padding-left: 20px; padding-right: 20px; text-align: center;"> Te damos la bienvenida a la familia de SueltaYa!, recuerda que para poder usar nuestra plataforma es necesario confirmar tu correo electrónico a través del siguiente enlace: </p>
+
+					<div style="margin-left: auto; margin-right: auto; display: block; font-size: 25px; text-align: center;">
+					<a href="https://appsueltaya.web.app/verify-account/${token}" style="font-family: 'Ubuntu', sans-serif; padding: 12px; color: white; background-color: #00A9E3; border-radius: 5px; text-decoration: none"> Activar mi cuenta</a> 
+					</div>	
+					
+					<br>
+					<div style="color: #757575; margin-left: auto;  margin-right: auto; text-align: center;">
+					<small>⚡ Email generado automáticamente, favor no responder ⚡</small> <br>
+					<small> © 2022 SueltaYa! </small>
+					</div>
+				</div>
+				</body>
+				</html>`, // html body
+				});
+			
+				console.log("Message sent: %s", info.messageId);
+				console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+			}
+
+			main().catch(console.error);
 
 			//user.password = encrypt(user.password!);
 			const userDb = new UserModel(user);
