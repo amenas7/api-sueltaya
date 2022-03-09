@@ -22,14 +22,14 @@ class AuthController {
 			}
 
 			//verifica si aún no activa el correo
-			const verificar = await UserModel.findOne( {email, verify: 'false'} );
+			const verificar = await UserModel.findOne( {email, verify: 'false', state: 'false'} );
 			if(verificar){
 				res.status(404).send({ok: false, message: 'Revisa tu correo y activa'});
 				return;
 			}
 
 			//verifica si la cuenta está suspendida
-			const suspendida = await UserModel.findOne( {email, state: 'false'} );
+			const suspendida = await UserModel.findOne( {email, state: 'false', verify: 'true'} );
 			if(suspendida){
 				res.status(404).send({ok: false, message: 'Tu cuenta está suspendida'});
 				return;
