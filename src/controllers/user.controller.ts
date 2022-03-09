@@ -180,7 +180,7 @@ class UserController implements CrudRepository {
 			}
 
 			// Actualizar usuario
-			await UserModel.updateOne( { email : email_verificado }, {$set: { state: "true", verify: "true" } }, {
+			await UserModel.updateOne( { email : email_verificado }, {$set: { verify: "true" } }, {
 				returnDocument: 'after'
 			})
 

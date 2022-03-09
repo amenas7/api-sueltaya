@@ -29,7 +29,7 @@ const UserSchema = new Schema({
 	state: {
 		type: Boolean,
 		required: false,
-		default: false
+		default: true
 	},
 	verify: {
 		type: Boolean,
