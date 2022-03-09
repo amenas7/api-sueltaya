@@ -28,12 +28,24 @@ class AuthController {
 				return;
 			}
 
+			// const verificar2 = await UserModel.findOne( {email, verify: 'false', state: 'true'} );
+			// if(verificar2){
+			// 	res.status(404).send({ok: false, message: 'Revisa tu correo y activa'});
+			// 	return;
+			// }
+
 			//verifica si la cuenta está suspendida
 			const suspendida = await UserModel.findOne( {email, state: 'false', verify: 'true'} );
 			if(suspendida){
 				res.status(404).send({ok: false, message: 'Tu cuenta está suspendida'});
 				return;
 			}
+
+			// const suspendida2 = await UserModel.findOne( {email, state: 'false', verify: 'false'} );
+			// if(suspendida2){
+			// 	res.status(404).send({ok: false, message: 'Tu cuenta está suspendida'});
+			// 	return;
+			// }
 
 			//si todo está bien procede al login
 			const validPassword = comparar(password, user.password);
